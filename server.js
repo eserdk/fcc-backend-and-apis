@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const redis = require('redis').createClient(process.env.REDIS_URL)
-const dns = require('dns')
 const url = require('url')
 const md5 = require('crypto-js/md5')
 const b64 = require('crypto-js/enc-base64url')
@@ -19,23 +18,19 @@ function get_key (string) {
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  const parsed_url = new url.URL(req.body.url)
-  dns.lookup(parsed_url.protocol ? parsed_url.hostname : parsed_url.toString(),
-    (err, address) => {
-      if (err || !address) {
-        res.json({ error: 'invalid url' })
-      } else {
-        const key = get_key(parsed_url.toString())
-        redis.set(key, parsed_url.toString())
-        res.json({ original_url: parsed_url.toString(), short_url: key })
-      }
-    })
+  try {
+    const parsed_url = new url.URL(req.body.url)
+    const key = get_key(parsed_url.toString())
+    redis.set(key, parsed_url.toString())
+    res.json({ original_url: parsed_url.toString(), short_url: key })
+  } catch (e) {
+    res.json({ error: 'invalid url' })
+  }
 })
 
 app.get('/api/shorturl/:short_url', (req, res) => {
   redis.get(req.params.short_url, (err, reply) => {
     if (!err && reply) {
-      console.log('REPLY: ' + reply)
       res.redirect(reply)
     } else {
       res.json({ error: 'invalid url' })
