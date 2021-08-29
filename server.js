@@ -22,10 +22,11 @@ app.post('/api/shorturl', (req, res) => {
   console.log('URL: ' + url)
   dns.lookup(url, (err, address) => {
     if (err || !address) {
+      console.log(err)
       res.json({ error: 'invalid url' })
     } else {
       const key = get_key(url)
-      redis.set(key, url)
+      redis.set(key, url, redis.print)
       res.json({ original_url: url, short_url: key })
     }
   })
@@ -34,6 +35,7 @@ app.post('/api/shorturl', (req, res) => {
 app.get('/api/shorturl/:short_url', (req, res) => {
   redis.get(req.params.short_url, (err, reply) => {
     if (!err && reply) {
+      console.log("REPLY: " + reply)
       res.redirect(reply)
     } else {
       res.json({ error: 'invalid url' })
