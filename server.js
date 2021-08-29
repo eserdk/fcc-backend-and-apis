@@ -18,7 +18,7 @@ function get_key (string) {
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  if (validator.isURL(req.body.url)) {
+  if (!validator.isURL(req.body.url)) {
     res.json({ error: 'invalid url' })
   } else {
     const key = get_key(req.body.url)
