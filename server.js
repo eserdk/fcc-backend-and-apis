@@ -2,7 +2,7 @@ const express = require('express')
 
 const app = express()
 const cors = require('cors')
-const redis = require('redis').createClient(process.env.REDIS_TLS_URL)
+const redis = require('redis').createClient(process.env.REDIS_URL)
 const dns = require('dns')
 const md5 = require('crypto-js/md5')
 const b64 = require('crypto-js/enc-base64url')
