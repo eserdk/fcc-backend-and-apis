@@ -9,7 +9,6 @@ const b64 = require('crypto-js/enc-base64url')
 
 // settings
 app.use(cors({ optionsSuccessStatus: 200 }))
-app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // helper
@@ -19,15 +18,15 @@ function get_key (string) {
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  dns.lookup(req.body, (err, address) => {
+  const url = req.body.url
+  console.log('URL: ' + url)
+  dns.lookup(url, (err, address) => {
     if (err || !address) {
-      console.log(err)
-      console.log(address)
       res.json({ error: 'invalid url' })
     } else {
-      const key = get_key(req.body)
-      redis.set(key, req.body)
-      res.json({ original_url: req.body, short_url: key })
+      const key = get_key(url)
+      redis.set(key, url)
+      res.json({ original_url: url, short_url: key })
     }
   })
 })
@@ -43,6 +42,6 @@ app.get('/api/shorturl/:short_url', (req, res) => {
 })
 
 // app
-const listener = app.listen(process.env.PORT, function () {
+const listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port)
 })
