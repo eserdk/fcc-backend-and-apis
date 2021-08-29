@@ -21,6 +21,8 @@ function get_key (string) {
 app.post('/api/shorturl', (req, res) => {
   dns.lookup(req.body.url, (err, address) => {
     if (err || !address) {
+      console.log(err)
+      console.log(address)
       res.json({ error: 'invalid url' })
     } else {
       const key = get_key(req.body.url)
