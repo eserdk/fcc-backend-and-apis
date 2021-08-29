@@ -22,17 +22,21 @@ app.post('/api/shorturl', (req, res) => {
     const parsed_url = new url.URL(req.body.url)
     const key = get_key(parsed_url.toString())
     redis.set(key, parsed_url.toString())
+    console.log("Success for " + req.body.url)
     res.json({ original_url: parsed_url.toString(), short_url: key })
   } catch (e) {
+    console.error("Error for " + req.body.url + ": " + e)
     res.json({ error: 'invalid url' })
   }
 })
 
 app.get('/api/shorturl/:short_url', (req, res) => {
-  redis.get(req.params.short_url, (err, reply) => {
-    if (!err && reply) {
+  redis.get(req.params.short_url, (e, reply) => {
+    if (!e && reply) {
+      console.log("Success for " + req.params.short_url)
       res.redirect(reply)
     } else {
+      console.error("Error for " + req.params.short_url + ": " + e)
       res.json({ error: 'invalid url' })
     }
   })
