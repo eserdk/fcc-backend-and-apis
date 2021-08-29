@@ -19,15 +19,15 @@ function get_key (string) {
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  dns.lookup(req.body.url, (err, address) => {
+  dns.lookup(req.body, (err, address) => {
     if (err || !address) {
       console.log(err)
       console.log(address)
       res.json({ error: 'invalid url' })
     } else {
-      const key = get_key(req.body.url)
-      redis.set(key, req.body.url)
-      res.json({ original_url: req.body.url, short_url: key })
+      const key = get_key(req.body)
+      redis.set(key, req.body)
+      res.json({ original_url: req.body, short_url: key })
     }
   })
 })
