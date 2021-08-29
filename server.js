@@ -8,7 +8,8 @@ app.use(cors({ optionsSuccessStatus: 200 }))
 
 // endpoints
 app.get('/api/:date?', (req, res) => {
-  const date = req.params.date == null ? new Date() : new Date(!isNaN(req.params.date) ? req.params.date : parseInt(req.params.date, 10))
+  const date = req.params.date == null ? new Date() : new Date(
+    isNaN(req.params.date) ? req.params.date : parseInt(req.params.date))
   res.json(date instanceof Date && !isNaN(date) ? {
     unix: date.getTime(),
     utc: date.toUTCString(),
