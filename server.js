@@ -18,12 +18,12 @@ function get_key(string) {
 }
 
 // endpoints
-app.post('/api/shorturl', (req, res, next) => {
+app.post('/api/shorturl', (req, res) => {
   const url = req.body
+  console.log(url)
   dns.lookup(url, ((err, address) => {
     if (err || !address) {
       res.json({ error: 'invalid url' })
-      next()
     }
   }))
   const key = get_key(url)
