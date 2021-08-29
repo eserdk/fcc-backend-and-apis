@@ -10,7 +10,8 @@
 		"cors": "^2.8.0",
 		"crypto-js": "^4.1.1",
 		"express": "^4.12.4",
-		"redis": "^3.1.2"
+		"redis": "^3.1.2",
+		"validator": "^13.6.0"
 	},
 	"repository": {
 		"type": "git",

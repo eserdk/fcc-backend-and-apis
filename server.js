@@ -3,8 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const redis = require('redis').createClient(process.env.REDIS_URL)
-const url = require('url')
-const dns = require('dns')
+const validator = require('validator')
 const md5 = require('crypto-js/md5')
 const b64 = require('crypto-js/enc-base64url')
 
@@ -19,18 +18,12 @@ function get_key (string) {
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  try {
-    dns.lookup(new url.URL(req.body.url).hostname, (err) => {
-      if (err) {
-        throw new Error()
-      } else {
-        const key = get_key(req.body.url)
-        redis.set(key, req.body.url)
-        res.json({ original_url: req.body.url, short_url: key })
-      }
-    })
-  } catch (e) {
+  if (validator.isURL(req.body.url)) {
     res.json({ error: 'invalid url' })
+  } else {
+    const key = get_key(req.body.url)
+    redis.set(key, req.body.url)
+    res.json({ original_url: req.body.url, short_url: key })
   }
 })
 
