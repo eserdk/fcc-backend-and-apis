@@ -13,26 +13,30 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // helper
-function get_key(string) {
+function get_key (string) {
   return b64.stringify(md5(string)).substring(0, 8)
 }
 
 // endpoints
 app.post('/api/shorturl', (req, res) => {
-  dns.lookup(req.body.url, ((err, address) => {
+  dns.lookup(req.body.url, (err, address) => {
     if (err || !address) {
       res.json({ error: 'invalid url' })
     } else {
       const key = get_key(req.body.url)
       redis.set(key, req.body.url)
-      res.json({original_url: req.body.url, short_url: key})
+      res.json({ original_url: req.body.url, short_url: key })
     }
-  }))
+  })
 })
 
 app.get('/api/shorturl/:short_url', (req, res) => {
   redis.get(req.params.short_url, (err, reply) => {
-    res.redirect(reply)
+    if (!err && reply) {
+      res.redirect(reply)
+    } else {
+      res.json({ error: 'invalid url' })
+    }
   })
 })
 
