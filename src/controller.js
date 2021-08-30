@@ -2,22 +2,25 @@ const db = require('db')
 const uuid = require('uuid')
 
 async function createUser (username) {
-  const _id = uuid.v4()
+  const id = uuid.v4()
   await db.query(
-    'INSERT INTO users(username, id) VALUES ($1) RETURNING id as _id',
-    [username, _id])
-  return { _id: _id, username: username }
+    'INSERT INTO users(username, id) VALUES ($1);',
+    [username, id])
+  return { _id: id, username: username }
 }
 
 async function getUsers () {
   const { rows } = await db.query('SELECT id as _id, username FROM users')
+  console.log(rows)
   return rows
 }
 
 async function createExercise (userId, description, duration, date) {
+  const id = uuid.v4()
   const { rows } = await db.query(
-    'INSERT INTO exercises(user_id, description, duration, date) VALUES ($1, $2, $3, $4) RETURNING id as _id',
-    [userId, description, duration, date.toUTCString()])
+    'INSERT INTO exercises(id, user_id, description, duration, date) VALUES ($1, $2, $3, $4, $5);',
+    [id, userId, description, duration, date.toUTCString()])
+  console.log(rows)
   return rows[0]
 }
 

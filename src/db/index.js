@@ -6,5 +6,5 @@ const pool = new Pool({
 )
 
 module.exports = {
-  query: async(text, params) => {await pool.connect(); pool.query(text, params)}
+  query: (text, params) => pool.query(text, params)
 }
