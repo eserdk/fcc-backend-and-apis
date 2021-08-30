@@ -5,17 +5,17 @@ const validator = require('validator')
 const router = new Router()
 module.exports = router
 
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
   if (!validator.isURL(req.body.url)) {
     res.json({ error: 'invalid url' })
   } else {
     res.json({
       original_url: req.body.url,
-      short_url: controller.getShortURL(req.body.url),
+      short_url: await controller.getShortURL(req.body.url),
     })
   }
 })
 
-router.get('/:short_url', (req, res) => {
-  controller.getLongURL(req.params.short_url, res.redirect)
+router.get('/:short_url', async(req, res) => {
+  res.redirect(await controller.getLongURL(req.params.short_url))
 })

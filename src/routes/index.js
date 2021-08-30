@@ -1,5 +1,3 @@
-exports.timestamp = require('./timestamp')
-exports.parser = require('./parser')
 exports.shortener = require('./shorturl')
 exports.tracker = require('./tracker')
 exports.fileanalyse = require('./fileanalyse')
