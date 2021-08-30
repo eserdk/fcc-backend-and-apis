@@ -11,6 +11,6 @@ express().
   use('/api/users', routes.tracker).
   use('/api/fileanalyse', routes.fileanalyse).
   use('/api/whoami', routes.parser).
-  use('/api/:date?', routes.parser).
+  use('/api/:date?', routes.timestamp).
   use('/api/shorturl', routes.shortener).
   listen(PORT, () => {console.log('Your app is listening on port ' + PORT)})
