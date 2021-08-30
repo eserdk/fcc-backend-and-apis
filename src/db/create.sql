@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS exercises
 (
     id          VARCHAR PRIMARY KEY,
     description VARCHAR,
-    duration    VARCHAR,
+    duration    INT,
     date        TIMESTAMP,
     user_id     VARCHAR,
     CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users

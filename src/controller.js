@@ -11,7 +11,7 @@ async function createUser (username) {
 
 async function getUsers () {
   const { rows } = await db.query('SELECT id as _id, username FROM users')
-  console.log(rows)
+  console.log("getUsers: " + rows)
   return rows
 }
 
@@ -20,7 +20,7 @@ async function createExercise (userId, description, duration, date) {
   const { rows } = await db.query(
     'INSERT INTO exercises(id, user_id, description, duration, date) VALUES ($1, $2, $3, $4, $5);',
     [id, userId, description, duration, date.toUTCString()])
-  console.log(rows)
+  console.log("createExercise: " + rows)
   return rows[0]
 }
 
@@ -32,7 +32,7 @@ async function getExercises (userId, from, to, limit) {
   if (from || to) {
     q += ' WHERE'
     if (from) {
-      q += ' u.date >= $' + params_counter
+      q += ' e.date >= $' + params_counter
       params.push(from.toUTCString())
       params_counter++
     }
@@ -41,7 +41,7 @@ async function getExercises (userId, from, to, limit) {
       if (from) {
         q += ' AND'
       }
-      q += ' u.date <= $' + params_counter
+      q += ' e.date <= $' + params_counter
       params.push(to.toUTCString())
       params_counter++
     }
@@ -52,7 +52,7 @@ async function getExercises (userId, from, to, limit) {
   }
   q += ';'
   const { rows } = await db.query(q, params)
-  console.log(rows)
+  console.log('getExercises: ' + rows)
 }
 
 module.exports = {
