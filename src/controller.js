@@ -4,8 +4,8 @@ const uuid = require('uuid')
 async function createUser (username) {
   const id = uuid.v4()
   await db.query(
-    'INSERT INTO users(username, id) VALUES ($1);',
-    [username, id])
+    'INSERT INTO users(id, username) VALUES ($1, $2);',
+    [id, username])
   return { _id: id, username: username }
 }
 
@@ -25,7 +25,7 @@ async function createExercise (userId, description, duration, date) {
 }
 
 async function getExercises (userId, from, to, limit) {
-  let q = 'SELECT u.id as user_id, u.username, e.description, e.duration, e.date,  FROM users u JOIN exercises e on e.user_id = u.id'
+  let q = 'SELECT u.id as user_id, u.username, e.description, e.duration, e.date FROM users u JOIN exercises e on e.user_id = u.id'
   let params = []
   let params_counter = 1
 
