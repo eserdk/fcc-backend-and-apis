@@ -3,6 +3,7 @@ const controller = require('../controller/shorturl')
 const validator = require('validator')
 
 const router = new Router()
+module.exports = router
 
 router.post('/', (req, res) => {
   if (!validator.isURL(req.body.url)) {
