@@ -2,17 +2,14 @@
 	"name": "fcc-api-projects",
 	"version": "0.0.1",
 	"description": "An FCC Backend Challenge",
-	"main": "./src/server.js",
+	"main": "server.js",
 	"scripts": {
-		"start": "node ./src/server.js"
+		"start": "node server.js"
 	},
 	"dependencies": {
 		"cors": "^2.8.0",
 		"express": "^4.12.4",
-		"express-promise-router": "^4.1.0",
-		"pg": "^8.7.1",
-		"postgres-migrations": "^5.3.0",
-		"uuid": "^8.3.2"
+		"multer": "^1.4.3"
 	},
 	"repository": {
 		"type": "git",
