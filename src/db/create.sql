@@ -1,29 +1,15 @@
-CREATE TABLE users IF NOT EXISTS
+CREATE TABLE IF NOT EXISTS users
 (
-    PRIMARY
-    KEY
-    id
-    VARCHAR,
-    username
-    VARCHAR
-    UNIQUE
+    id       VARCHAR PRIMARY KEY,
+    username VARCHAR unique
 );
 
-CREATE TABLE exercises IF NOT EXISTS
+CREATE TABLE IF NOT EXISTS exercises
 (
-    PRIMARY
-    KEY
-    id
-    VARCHAR,
-    description
-    VARCHAR,
-    duration
-    VARCHAR,
-    date
-    TIMESTAMP,
-    FOREIGN
-    KEY
-(
-    user_id
-)
-    );
+    id          VARCHAR PRIMARY KEY,
+    description VARCHAR,
+    duration    VARCHAR,
+    date        TIMESTAMP,
+    user_id     VARCHAR,
+    CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users
+);
