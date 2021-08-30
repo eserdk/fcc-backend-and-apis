@@ -52,6 +52,7 @@ async function getExercises (userId, from, to, limit) {
   }
   q += ';'
   const { rows } = await db.query(q, params)
+  console.log('Exercise example: ' + rows[0])
 }
 
 module.exports = {
