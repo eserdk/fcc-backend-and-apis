@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS exercises
     id          VARCHAR PRIMARY KEY,
     description VARCHAR,
     duration    INT,
-    date        DATE NOT NULL DEFAULT CURRENT_DATE,
+    date        DATE DEFAULT CURRENT_DATE NOT NULL,
     user_id     UUID,
     CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users
 );
