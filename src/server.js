@@ -25,6 +25,5 @@ express().
       utc: date.toUTCString(),
     } : { error: 'Invalid Date' })
   }).
-  use('/api/:date?', routes.timestamp).
   use('/api/shorturl', routes.shortener).
   listen(PORT, () => {console.log('Your app is listening on port ' + PORT)})
