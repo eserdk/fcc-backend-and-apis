@@ -2,9 +2,9 @@
 	"name": "fcc-api-projects",
 	"version": "0.0.1",
 	"description": "An FCC Backend Challenge",
-	"main": "server.js",
+	"main": "./src/server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node ./src/server.js"
 	},
 	"dependencies": {
 		"cors": "^2.8.0",

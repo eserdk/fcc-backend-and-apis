@@ -1,4 +1,4 @@
-const db = require('db')
+const db = require('./db')
 const uuid = require('uuid')
 
 async function createUser (username) {
