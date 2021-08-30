@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users
 (
-    id       VARCHAR PRIMARY KEY,
-    username VARCHAR unique
+    id       UUID PRIMARY KEY,
+    username VARCHAR UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS exercises
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS exercises
     id          VARCHAR PRIMARY KEY,
     description VARCHAR,
     duration    INT,
-    date        TIMESTAMP,
-    user_id     VARCHAR,
+    date        DATE NOT NULL DEFAULT CURRENT_DATE,
+    user_id     UUID,
     CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users
 );

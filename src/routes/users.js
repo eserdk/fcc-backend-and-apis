@@ -20,11 +20,7 @@ router.post('/:_id/exercises', async(req, res) => {
   // You can POST to /api/users/:_id/exercises with form data description, duration, and optionally date.
   // If no date is supplied, the current date will be used.
   // The response returned will be the user object with the exercise fields added.
-  const _id = req.params['_id']
-  const description = req.body['description']
-  const duration = req.body['duration']
-  const date = req.body['date'] ? new Date(req.body['date']) : new Date()
-  res.json(await controller.createExercise(_id, description, duration, date))
+  res.json(await controller.createExercise(req.params['_id'], req.body['description'], req.body['duration'], req.body['date']))
 })
 
 router.get('/:_id/logs', async(req, res) => {
@@ -37,9 +33,5 @@ router.get('/:_id/logs', async(req, res) => {
   // You can add from, to and limit parameters to a /api/users/:_id/logs request to retrieve part of the log of any user.
   // from and to are dates in yyyy-mm-dd format.
   // limit is an integer of how many logs to send back.
-  const _id = req.params['_id']
-  const from = req.query['from'] ? new Date(req.body['from']) : null
-  const to = req.query['to'] ? new Date(req.query['to']) : null
-  const limit = req.query['limit'] ? parseInt(req.query['limit']) : null
-  res.json(await controller.getExercises(_id, from, to, limit))
+  res.json(await controller.getExercises(req.params['_id'], req.body['from'], req.body['to'], req.query['limit']))
 })

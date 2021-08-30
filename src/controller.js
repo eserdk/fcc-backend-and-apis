@@ -17,10 +17,10 @@ async function getUsers () {
 
 async function createExercise (userId, description, duration, date) {
   const id = uuid.v4()
-  const { rows } = await db.query(
+  await db.query(
     'INSERT INTO exercises(id, user_id, description, duration, date) VALUES ($1, $2, $3, $4, $5);',
     [id, userId, description, duration, date.toUTCString()])
-  console.log("createExercise: " + rows)
+  const { rows } = await db.query('SELECT u.id as _id, u.username, e.description, e.duration, e.date FROM users u JOIN exercises e on u.id = e.user_id WHERE u.id = $1 AND e.id = $2;', [userId, id])
   return rows[0]
 }
 
